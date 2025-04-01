@@ -61,7 +61,7 @@ function AddUserForm() {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Add User</CardTitle>
