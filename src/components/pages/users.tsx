@@ -25,6 +25,9 @@ import {
 } from "@/components/ui/table";
 import Usertype from "@/lib/types";
 import { useState } from "react";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const queryClient = new QueryClient();
 
@@ -90,13 +93,13 @@ function UsersList() {
   return (
     <div className="w-full p-4">
       <div className="mb-4 flex items-center gap-4 max-w-4xl mx-auto">
-        <input
+        <Input
           type="text"
           placeholder="Search..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border p-2 rounded w-full"
         />
+        <Button><Link href="/add-user">Add User</Link></Button>
       </div>
       <Card className="max-w-4xl mx-auto">
         <Table className="w-full text-sm">
