@@ -6,8 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import { MdGroups2 } from "react-icons/md";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { HomeSkeleton } from "@/components/manual/skeletons";
 export default function Home() {
+  const isLoading = false; // Replace with actual loading state
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4 py-16">
@@ -21,63 +25,43 @@ export default function Home() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <Card>
-            <Link href="/users">
-              <CardHeader>
-                <div className="text-blue-500 mb-4">
-                  <svg
-                    className="w-8 h-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                </div>
-                <CardTitle>View Users</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Browse and manage all users in the system
-                </CardDescription>
-              </CardContent>
-            </Link>
-          </Card>
+          {isLoading ? (
+            <HomeSkeleton />
+          ) : (
+            <>
+              <Card>
+                <Link href="/users">
+                  <CardHeader>
+                    <div className="text-blue-500 mb-4">
+                      <MdGroups2 className="w-8 h-8" />
+                    </div>
+                    <CardTitle>View Users</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Browse and manage all users in the system
+                    </CardDescription>
+                  </CardContent>
+                </Link>
+              </Card>
 
-          <Card>
-            <Link href="/add-user">
-              <CardHeader>
-                <div className="text-green-500 mb-4">
-                  <svg
-                    className="w-8 h-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
-                </div>
-                <CardTitle>Add New User</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Create a new user with detailed information
-                </CardDescription>
-              </CardContent>
-            </Link>
-          </Card>
-
-
+              <Card>
+                <Link href="/add-user">
+                  <CardHeader>
+                    <div className="text-green-500 mb-4">
+                      <IoIosAddCircleOutline className="w-8 h-8" />
+                    </div>
+                    <CardTitle>Add New User</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Create a new user with detailed information
+                    </CardDescription>
+                  </CardContent>
+                </Link>
+              </Card>
+            </>
+          )}
         </div>
 
         <div className="mt-16 text-center">

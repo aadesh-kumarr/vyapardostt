@@ -1,6 +1,10 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import {
   useReactTable,
   getCoreRowModel,
@@ -8,25 +12,44 @@ import {
   createColumnHelper,
   ColumnDef,
 } from "@tanstack/react-table";
-import { Card } from "@/components/ui/card"; // Adjust the import path as needed
-import Link from "next/link"; // Import Link for navigation
+import { Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
+import { UserSkeleton } from "@/components/manual/skeletons";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+const queryClient = new QueryClient();
 
 export default function UsersPage() {
-  return <Users />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Users />
+    </QueryClientProvider>
+  );
 }
 
 function Users() {
-  const { data: users = [], isLoading, error } = useQuery({
+  const router = useRouter(); // Use router for navigation
+
+  const {
+    data: users = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["get-users"],
     queryFn: async () => {
       const res = await fetch("/api/get-users");
       if (!res.ok) {
-        console.error("Failed to fetch users:", res.statusText); // Log error details
+        console.error("Failed to fetch users:", res.statusText);
         throw new Error("Failed to fetch users");
       }
-      const data = await res.json();
-      console.log("Data received:", data); // Log the data for debugging
-      return data; // Ensure the parsed JSON is returned
+      return res.json();
     },
   });
 
@@ -60,44 +83,46 @@ function Users() {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <UserSkeleton />;
   if (error) {
-    console.error("Error loading users:", error); // Log the error for debugging
-    return <p>Error loading users.</p>;
+    console.error("Error loading users:", error);
+    return <Card>Error loading users.</Card>;
   }
 
   return (
-    <div>
+    <div className="w-full">
       <Card className="p-4">
-        <table className="border-collapse border border-gray-300 w-full">
-          <thead>
+        <Table className="border-collapse w-full text-sm">
+          <TableHeader className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="border p-2">
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
+                  <TableHead key={header.id} className="border p-2 text-left">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </TableHead>
                 ))}
-              </tr>
+              </TableRow>
             ))}
-          </thead>
-          <tbody>
+          </TableHeader>
+          <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <TableRow
+                key={row.id}
+                className="cursor-pointer hover:bg-gray-100"
+                onClick={() => router.push(`/users/${row.original.id}`)} // Navigate on row click
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="border p-2">
+                  <TableCell key={cell.id} className="border p-2">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+                  </TableCell>
                 ))}
-                <td className="border p-2">
-                  <Link href={`/users/${row.original.id}`}>
-                    <div className="text-blue-500 underline">View</div>
-                  </Link>
-                </td>
-              </tr>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </Card>
     </div>
   );
