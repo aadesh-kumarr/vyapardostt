@@ -1,5 +1,6 @@
 "use client";
 
+export const dynamic = "force-dynamic"; 
 import {
   useQuery,
   QueryClient,
@@ -13,7 +14,7 @@ import {
   ColumnDef,
 } from "@tanstack/react-table";
 import { Card } from "@/components/ui/card";
-import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
+import { useRouter } from "next/navigation"; 
 import { UserSkeleton } from "@/components/manual/skeletons";
 import {
   Table,
@@ -23,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Usertype from "@/lib/types";
 
 const queryClient = new QueryClient();
 
@@ -51,18 +53,12 @@ function Users() {
       }
       return res.json();
     },
+    refetchInterval: 5000, // Poll every 5 seconds for updated data
   });
 
-  interface User {
-    id: number;
-    name: string;
-    email: string;
-    phoneNumber: string;
-  }
+  const columnHelper = createColumnHelper<Usertype>();
 
-  const columnHelper = createColumnHelper<User>();
-
-  const columns: ColumnDef<User, any>[] = [
+  const columns: ColumnDef<Usertype, keyof Usertype>[] = [
     columnHelper.accessor("name", {
       header: () => "Name",
       cell: (info) => info.getValue(),
@@ -90,9 +86,9 @@ function Users() {
   }
 
   return (
-    <div className="w-full">
-      <Card className="p-4">
-        <Table className="border-collapse w-full text-sm">
+    <div className="w-full p-4">
+      <Card className=" ">
+        <Table className=" w-full text-sm ">
           <TableHeader className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

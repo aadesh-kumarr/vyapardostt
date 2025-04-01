@@ -10,7 +10,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
         id: true,
         name: true,
         email: true,
-        phoneNumber: true, // Ensure phoneNumber is included
+        phoneNumber: true,
+        createdAt:true, // Ensure phoneNumber is included
       },
     });
 

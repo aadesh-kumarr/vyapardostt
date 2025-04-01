@@ -6,22 +6,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { MdGroups2 } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { HomeSkeleton } from "@/components/manual/skeletons";
+import { Separator } from "@/components/ui/separator";
+
 export default function Home() {
   const isLoading = false; // Replace with actual loading state
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4 py-16">
+    <main className=" bg-gradient-to-b from-gray-50 to-white">
+      <div className="container mx-auto p-6">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             User Management System
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-600 mb-6">
             A modern solution for managing user data
           </p>
+          <Separator className="max-w-md mx-auto mb-8" />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
@@ -29,8 +33,8 @@ export default function Home() {
             <HomeSkeleton />
           ) : (
             <>
-              <Card>
-                <Link href="/users">
+              <Card className="transition-all duration-200 hover:shadow-lg hover:scale-[1.02]">
+                <Link href="/users" className="block">
                   <CardHeader>
                     <div className="text-blue-500 mb-4">
                       <MdGroups2 className="w-8 h-8" />
@@ -41,12 +45,15 @@ export default function Home() {
                     <CardDescription>
                       Browse and manage all users in the system
                     </CardDescription>
+                    <Button variant="outline" className="mt-4 w-full">
+                      View Users
+                    </Button>
                   </CardContent>
                 </Link>
               </Card>
 
-              <Card>
-                <Link href="/add-user">
+              <Card className="transition-all duration-200 hover:shadow-lg hover:scale-[1.02]">
+                <Link href="/add-user" className="block">
                   <CardHeader>
                     <div className="text-green-500 mb-4">
                       <IoIosAddCircleOutline className="w-8 h-8" />
@@ -57,6 +64,9 @@ export default function Home() {
                     <CardDescription>
                       Create a new user with detailed information
                     </CardDescription>
+                    <Button variant="outline" className="mt-4 w-full">
+                      Add User
+                    </Button>
                   </CardContent>
                 </Link>
               </Card>
@@ -64,11 +74,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-gray-600">
-            Built with Next.js, MongoDB Atlas, and modern web technologies
-          </p>
-        </div>
+
       </div>
     </main>
   );

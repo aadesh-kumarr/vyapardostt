@@ -35,7 +35,6 @@ function AddUserForm(): JSX.Element {
       register,
       handleSubmit,
       formState: { errors },
-      reset, // Add reset function
     } = useForm<User>({
       resolver: zodResolver(userSchema),
     });

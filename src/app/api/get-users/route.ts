@@ -1,8 +1,8 @@
 import { prisma } from "@/prisma";
 import { NextResponse } from "next/server";
-
+export const dynamic = "force-dynamic"; 
 // API to get all users
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -10,6 +10,7 @@ export async function GET(request: Request) {
         name: true,
         email: true,
         phoneNumber: true, // Ensure phoneNumber is included
+        createdAt: true, // Include createdAt for dynamic rendering
       },
     });
     return NextResponse.json(users);

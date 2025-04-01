@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { UserDetailSkeleton } from "@/components/manual/skeletons";
+
 export default function UserDetailPageWrapper() {
   const [queryClient] = useState(() => new QueryClient());
 
@@ -49,15 +50,16 @@ function UserDetailPage() {
   }
 
   return (
-    <div className="p-4">
-      <Card>
+    <div className="p-4 max-w-4xl mx-auto"> {/* Center content and limit width */}
+      <Card className="w-full"> {/* Ensure card takes full width */}
         <CardHeader>
-          <CardHeader>User Details</CardHeader>
+          <h2>User Details</h2>
         </CardHeader>
-        <CardContent className="space-y-4 flex flex-col">
+        <CardContent className="space-y-4 flex flex-col text-sm sm:text-base"> {/* Adjust text size for smaller screens */}
           <strong>Name:</strong> {user.name}
           <strong>Email:</strong> {user.email}
           <strong>Phone:</strong> {user.phoneNumber}
+          <strong>Joined from:</strong> {new Date(user.createdAt).toLocaleDateString()}
         </CardContent>
       </Card>
     </div>
