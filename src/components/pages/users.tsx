@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Usertype from "@/lib/types";
+import { useState } from "react";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ export default function Users() {
 
 function UsersList() {
   const router = useRouter();
+  const [search, setSearch] = useState("");
 
   const {
     data: users = [],
@@ -51,9 +53,13 @@ function UsersList() {
       }
       return res.json();
     },
-    refetchInterval: 5000,
-    staleTime: 0,
   });
+
+  const filteredUsers = users.filter((user: Usertype) =>
+    user.name.toLowerCase().includes(search.toLowerCase()) ||
+    user.email.toLowerCase().includes(search.toLowerCase()) ||
+    user.phoneNumber.toLowerCase().includes(search.toLowerCase())
+  );
 
   const columnHelper = createColumnHelper<Usertype>();
 
@@ -73,7 +79,7 @@ function UsersList() {
   ];
 
   const table = useReactTable({
-    data: users,
+    data: filteredUsers,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -83,7 +89,16 @@ function UsersList() {
 
   return (
     <div className="w-full p-4">
-      <Card>
+      <div className="mb-4 flex items-center gap-4 max-w-4xl mx-auto">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border p-2 rounded w-full"
+        />
+      </div>
+      <Card className="max-w-4xl mx-auto">
         <Table className="w-full text-sm">
           <TableHeader className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (

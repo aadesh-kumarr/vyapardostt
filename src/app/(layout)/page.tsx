@@ -13,7 +13,7 @@ import { HomeSkeleton } from "@/components/manual/skeletons";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
-  const isLoading = false; // Replace with actual loading state
+  const isLoading = false;
 
   return (
     <main className=" bg-gradient-to-b from-gray-50 to-white">

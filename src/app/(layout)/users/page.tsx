@@ -1,4 +1,3 @@
-// app/users/page.tsx
 import Users from "@/components/pages/users";
 
 export const dynamic = "force-dynamic";
