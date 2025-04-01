@@ -62,7 +62,7 @@ function AddUserForm(): JSX.Element {
     };
   
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center ">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Add User</CardTitle>

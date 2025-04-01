@@ -1,7 +1,8 @@
 import { prisma } from "@/prisma";
 import { NextResponse } from "next/server";
-export const dynamic = "force-dynamic"; 
-// API to get all users
+
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const users = await prisma.user.findMany({
@@ -9,16 +10,33 @@ export async function GET() {
         id: true,
         name: true,
         email: true,
-        phoneNumber: true, // Ensure phoneNumber is included
-        createdAt: true, // Include createdAt for dynamic rendering
+        phoneNumber: true,
+        createdAt: true,
       },
     });
-    return NextResponse.json(users);
+
+    // Ensure the response is never cached
+    return new NextResponse(JSON.stringify(users), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   } catch (error) {
-    console.error("Error fetching users:", error); // Add logging for debugging
-    return NextResponse.json(
-      { error: "Failed to fetch users" },
-      { status: 500 }
+    console.error("Error fetching users:", error);
+
+    return new NextResponse(
+      JSON.stringify({ error: "Failed to fetch users" }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-store",
+        },
+      }
     );
   }
 }

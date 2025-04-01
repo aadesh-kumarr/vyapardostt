@@ -1,6 +1,5 @@
 "use client";
 
-export const dynamic = "force-dynamic"; 
 import {
   useQuery,
   QueryClient,
@@ -28,6 +27,7 @@ import Usertype from "@/lib/types";
 
 const queryClient = new QueryClient();
 
+export const dynamic = "force-dynamic"; 
 export default function UsersPage() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -46,14 +46,15 @@ function Users() {
   } = useQuery({
     queryKey: ["get-users"],
     queryFn: async () => {
-      const res = await fetch("/api/get-users");
+      const res = await fetch("/api/get-users", { cache: "no-store" });
       if (!res.ok) {
         console.error("Failed to fetch users:", res.statusText);
         throw new Error("Failed to fetch users");
       }
       return res.json();
     },
-    refetchInterval: 5000, // Poll every 5 seconds for updated data
+    refetchInterval: 5000, 
+    staleTime: 0, 
   });
 
   const columnHelper = createColumnHelper<Usertype>();
