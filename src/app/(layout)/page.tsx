@@ -28,7 +28,7 @@ export default function Home() {
           <Separator className="max-w-md mx-auto mb-8" />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8 max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-8 justify-center  mx-auto">
           {isLoading ? (
             <HomeSkeleton />
           ) : (
